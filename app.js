@@ -65,10 +65,48 @@ class Bd{
             if(despesa === null){
                 continue;
             }
-            
+            despesa.id = i
             despesas.push(despesa)
         }
         return despesas
+    }
+
+    pesquisar(despesa){
+       let despesasFiltradas = []
+       despesasFiltradas = this.recuperarTodosRegistoros()
+       // console.log(despesa)
+       // console.log(despesasFiltradas)
+
+       // ano
+        if(despesa.ano != ''){
+            despesasFiltradas = despesasFiltradas.filter( d => d.ano == despesa.ano)
+        }
+       // mes
+       if(despesa.mes != ''){
+            despesasFiltradas = despesasFiltradas.filter( d => d.mes == despesa.mes)
+        }
+       // dia
+       if(despesa.dia != ''){
+            despesasFiltradas = despesasFiltradas.filter( d => d.dia == despesa.dia)
+       }
+        // tipo
+        if(despesa.tipo != ''){
+            despesasFiltradas = despesasFiltradas.filter( d => d.tipo == despesa.tipo)
+        }
+        // descricao
+        if(despesa.descricao != ''){
+            despesasFiltradas = despesasFiltradas.filter( d => d.descricao == despesa.descricao)
+        }
+        // valor
+        if(despesa.valor != ''){
+            despesasFiltradas = despesasFiltradas.filter( d => d.valor == despesa.valor)
+        }
+
+        return despesasFiltradas
+    }
+
+    remover(id){
+        localStorage.removeItem(id)
     }
 }
 
@@ -83,14 +121,7 @@ function cadastrarDespesa() {
 	let descricao = document.getElementById('descricao')
 	let valor = document.getElementById('valor')
 
-	let despesa = new Despesa(
-		ano.value, 
-		mes.value, 
-		dia.value, 
-		tipo.value, 
-		descricao.value,
-		valor.value
-	)
+	let despesa = new Despesa( ano.value, mes.value, dia.value, tipo.value, descricao.value, valor.value )
 	
 	if(despesa.validarDados()) {
 		bd.gravar(despesa)
@@ -114,7 +145,7 @@ function cadastrarDespesa() {
         limpar()
         window.open('http://127.0.0.1:5500/consulta.html')
 	} else {
-		//dialog de sucesso
+		//dialog de error
         document.getElementById('modal_titulo').innerHTML = 'Erro não incluido !'
         document.getElementById('modal_titulo_div').className = 'modal-header text-danger'
         document.getElementById('modal_conteudo').innerHTML = 'Verifique se todos os campos forão preenchidos'
@@ -124,21 +155,16 @@ function cadastrarDespesa() {
 	}
 }
 
-function carregaListaDespesas(){
-    let despesas = []
-    despesas = bd.recuperarTodosRegistoros()
+function carregaListaDespesas(despesas = [], filtro = false ){
+    
+    if(despesas.length == 0 && filtro == false){
+        despesas = bd.recuperarTodosRegistoros()
+    }
 
-    // console.log(despesas)
-
+    // selecionar o elemento tbody da tabela
     var listaDespesas = document.getElementById('listaDespesas')
-    /***
-         <tr>
-            <td>15/03/2018</td>
-            <td>Alimentação</td>
-            <td>Compra do mês</td>
-            <td>1.080,00</td>
-        </tr>
-     */
+    // limpar a lista toda
+    listaDespesas.innerHTML = ''
 
     despesas.forEach( function(d){
         // console.log(d)
@@ -165,6 +191,32 @@ function carregaListaDespesas(){
         linha.insertCell(2).innerHTML = d.descricao
         linha.insertCell(3).innerHTML = d.valor
 
+        let btn = document.createElement("button")
+        btn.className = 'btn btn-danger'
+        btn.innerHTML = '<i class="fas fa-times"></i>'
+        btn.id = 'id_item_'+ d.id
+        btn.onclick = function(){
+            let id = this.id.replace('id_item_', '')
+                bd.remover(id)
+                window.location.reload() // recarrega a página apos excluir
+        }
+        linha.insertCell(4).append(btn)
 
+        console.log(d)
     })
+}
+
+function pesquisarDespesa(){
+    // console.log('procurando uma despesa')
+    let ano = document.getElementById('ano').value
+    let mes = document.getElementById('mes').value
+    let dia = document.getElementById('dia').value
+    let tipo = document.getElementById('tipo').value
+    let descricao = document.getElementById('descricao').value
+    let valor = document.getElementById('valor').value
+
+    let despesa = new Despesa(ano, mes, dia, tipo, descricao, valor)
+    let despesas = bd.pesquisar(despesa)
+
+    this.carregaListaDespesas(despesas, true)    
 }
