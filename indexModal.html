@@ -14,11 +14,11 @@
     <!-- Font Awesome -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 
-    <script src="./app.js" defer></script>
+    <script src="app.js"></script>
 
 	</head>
 
-  <body onload="carregaListaDespesas()">
+  <body>
 
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
@@ -32,10 +32,10 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
+            <li class="nav-item active">
               <a class="nav-link" href="index.html">Cadastro</a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
               <a class="nav-link" href="consulta.html">Consulta</a>
             </li>
           </ul>
@@ -45,9 +45,9 @@
     </nav>
 
     <div class="container">
-      <div class="row mb-5">
-        <div class="col">
-          <h1 class="display-4">Consulta de despesas</h1>
+      <div class="row">
+        <div class="col mb-5">
+          <h1 class="display-4">Registro de nova despesa</h1>
         </div>
       </div>
 
@@ -83,7 +83,7 @@
 
         <div class="col-md-6">
           <select class="form-control" id="tipo">
-            <option>Tipo</option>
+            <option value="">Tipo</option>
             <option value="1">Alimentação</option>
             <option value="2">Educação</option>
             <option value="3">Lazer</option>
@@ -93,7 +93,7 @@
         </div>
       </div>
 
-      <div class="row  mb-5">
+      <div class="row">
         <div class="col-md-8">
           <input type="text" class="form-control" placeholder="Descrição" id="descricao" />
         </div>
@@ -103,31 +103,53 @@
         </div>
 
         <div class="col-md-2 d-flex justify-content-end">
-          <button type="button" class="btn btn-primary">
-            <i class="fas fa-search"></i>
+          <button type="button" class="btn btn-primary" onclick="cadastrarDespesa()">
+            <i class="fas fa-plus"></i>
           </button>
         </div>
       </div>
+    </div>
 
-      <div class="row">
-        <div class="col">
-          <table class="table" >
-            <thead>
-              <tr>
-                <th>Data</th>
-                <th>Tipo</th>
-                <th>Descrição</th>
-                <th>Valor</th>
-                <th></th>
-              </tr>
-            </thead>
-
-            <tbody>
-            </tbody>
-          </table>
+    <!-- Modal -->
+    <div class="modal fade" id="erroGravacao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header text-danger">
+            <h5 class="modal-title" id="exampleModalLabel">Erro na gravação</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="modal_conteudo">
+            Existem campos obrigatorios que não foram preenchidos
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Voltar e corrigir</button>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="sucessoGravacao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header text-success">
+            <h5 class="modal-title" id="exampleModalLabel">Registro inserido com sucesso</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="modal_conteudo">
+            Despesa foi cadastrada com sucesso!
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal">Voltar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </body>	
 
 </html>
