@@ -7,6 +7,15 @@ class Despesa{
         this.descricao = descricao;
         this.valor = valor;
     }
+
+    validarDados(){
+        for(let item in this){
+            if( this[item] == undefined || this[item] == '' || this[item] == null ) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
 class Bd{
@@ -37,30 +46,35 @@ class Bd{
         localStorage.setItem(id, JSON.stringify(d))
 
         localStorage.setItem('id', id)
-
-        alert('Cadastrado com sucesso')
     }
 }
 
-let bd = new Bd();
+let bd = new Bd()
 
-function cadastrarDespesas(){
-    let ano = document.getElementById('ano');
-    let mes = document.getElementById('mes');
-    let dia = document.getElementById('dia');
-    let tipo = document.getElementById('tipo');
-    let descricao = document.getElementById('descricao');
-    let valor = document.getElementById('valor');
+function cadastrarDespesa() {
 
-    let despesa = new Despesa(
-        ano.value,
-        mes.value,
-        dia.value,
-        tipo.value,
-        descricao.value,
-        valor.value
-    )
+	let ano = document.getElementById('ano')
+	let mes = document.getElementById('mes')
+	let dia = document.getElementById('dia')
+	let tipo = document.getElementById('tipo')
+	let descricao = document.getElementById('descricao')
+	let valor = document.getElementById('valor')
 
-    //console.log(despesa)
-    bd.gravar(despesa)
+	let despesa = new Despesa(
+		ano.value, 
+		mes.value, 
+		dia.value, 
+		tipo.value, 
+		descricao.value,
+		valor.value
+	)
+	
+	if(despesa.validarDados()) {
+		bd.gravar(despesa)
+		//dialog de sucesso
+		$('#sucessoGravacao').modal('show') 
+	} else {
+		//dialog de sucesso
+		$('#erroGravacao').modal('show') 
+	}
 }
