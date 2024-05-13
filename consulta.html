@@ -21,6 +21,7 @@
   <body onload="carregaListaDespesas()">
 
 
+    <!-- Header do site -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
       <div class="container">
         <a class="navbar-brand" href="#">
@@ -45,12 +46,16 @@
     </nav>
 
     <div class="container">
+        
+     <!-- Inicio Titulo -->
       <div class="row mb-5">
         <div class="col">
           <h1 class="display-4">Consulta de despesas</h1>
         </div>
       </div>
+    <!-- Fim Titulo -->
 
+      <!-- inicio form -->
       <div class="row mb-2">
         <div class="col-md-2">
           <select class="form-control" id="ano">
@@ -109,6 +114,9 @@
         </div>
       </div>
 
+    <!-- fim form -->
+
+    <!-- inicio Tabela -->
       <div class="row">
         <div class="col">
           <table class="table" >
@@ -122,12 +130,16 @@
               </tr>
             </thead>
 
-            <tbody>
+            <tbody id="listaDespesas">
+                
             </tbody>
           </table>
+          <!-- Fim Tabela -->
         </div>
       </div>
+
     </div>
+
   </body>	
 
 </html>
